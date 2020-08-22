@@ -40,6 +40,10 @@ ball.goto(0,0)
 ball.dx = 2
 ball.dy = 2
 
+# scoring
+Ascore = 0
+Bscore = 0
+
 # Pen
 pen = turtle.Turtle()
 pen.speed(0)
@@ -47,13 +51,14 @@ pen.color("black")
 pen.penup()
 pen.hideturtle()
 pen.goto(0,260)
-pen.write("Player A: 0  Player B: 0",align="center",font=("Courier", 24, "normal"))
+pen.write("Player A: {}  Player B: {}".format(Ascore,Bscore),align="center",font=("Courier", 24, "normal"))
 
-# scoring
-Ascore = 0
-Bscore = 0
 
 # Functions
+def change(Ascore,Bscore):
+    pen.write("Player A: {}  Player B: {}".format(Ascore,Bscore),align="center",font=("Courier", 24, "normal"))
+
+
 def playerA_up():
     y = playerA.ycor()
     y+=20
@@ -105,15 +110,21 @@ while True:
         ball.goto(0,0)
         ball.dx *= -1
         Ascore+=1
+        pen.clear()
+        #pen.write("Player A: {}  Player B: {}".format(Ascore,Bscore),align="center",font=("Courier", 24, "normal"))
+        change(Ascore, Bscore)
 
     if ball.xcor() < -400:
         ball.goto(0,0)
         ball.dx *= -1
         Bscore+=1
+        pen.clear()
+        #pen.write("Player A: {}  Player B: {}".format(Ascore,Bscore),align="center",font=("Courier", 24, "normal"))
+        change(Ascore,Bscore)
 
     # Bounce Collision
-    if ball.xcor() > 340 and ball.xcor() < 350 and ball.ycor() < playerB.ycor() + 50 and ball.ycor() > playerB.ycor() - 50:
+    if ball.xcor() > 340 and ball.xcor() < 350 and ball.ycor() < playerB.ycor() + 60 and ball.ycor() > playerB.ycor() - 60:
         ball.dx *= -1
 
-    if ball.xcor() < -340 and ball.xcor() > -350 and ball.ycor() < playerA.ycor() + 50 and ball.ycor() > playerA.ycor() - 50:
+    if ball.xcor() < -340 and ball.xcor() > -350 and ball.ycor() < playerA.ycor() + 60 and ball.ycor() > playerA.ycor() - 60:
         ball.dx *= -1
