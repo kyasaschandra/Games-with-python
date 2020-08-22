@@ -9,6 +9,7 @@ window = turtle.Screen()
 window.title("PONG by @BlitzBlaster31")
 window.bgcolor("white")
 window.setup(width=800,height=600)
+#window.tracer(0)
 
 # Player A
 playerA = turtle.Turtle()
@@ -31,7 +32,7 @@ playerB.goto(350,0)
 
 # Ball
 ball = turtle.Turtle()
-ball.speed(0)
+ball.speed(0.4)
 ball.shape("square")
 ball.color("black")
 ball.penup()
@@ -39,8 +40,18 @@ ball.goto(0,0)
 ball.dx = 2
 ball.dy = 2
 
+# Pen
+pen = turtle.Turtle()
+pen.speed(0)
+pen.color("black")
+pen.penup()
+pen.hideturtle()
+pen.goto(0,260)
+pen.write("Player A: 0  Player B: 0",align="center",font=("Courier", 24, "normal"))
 
-
+# scoring
+Ascore = 0
+Bscore = 0
 
 # Functions
 def playerA_up():
@@ -86,4 +97,23 @@ while True:
         ball.sety(290)
         ball.dy*= -1
     
-    
+    if ball.ycor() < -290:
+        ball.sety(-290)
+        ball.dy*= -1
+
+    if ball.xcor()> 400:
+        ball.goto(0,0)
+        ball.dx *= -1
+        Ascore+=1
+
+    if ball.xcor() < -400:
+        ball.goto(0,0)
+        ball.dx *= -1
+        Bscore+=1
+
+    # Bounce Collision
+    if ball.xcor() > 340 and ball.xcor() < 350 and ball.ycor() < playerB.ycor() + 50 and ball.ycor() > playerB.ycor() - 50:
+        ball.dx *= -1
+
+    if ball.xcor() < -340 and ball.xcor() > -350 and ball.ycor() < playerA.ycor() + 50 and ball.ycor() > playerA.ycor() - 50:
+        ball.dx *= -1
