@@ -5,6 +5,7 @@ https://www.youtube.com/watch?v=FfWpgLFMI7w
 import pygame 
 import os
 import random
+from pygame import mixer
 
 # Initializing the pygame
 pygame.init()
@@ -19,9 +20,12 @@ pygame.display.set_icon(icon)
 
 #  Loading background
 bgimg = pygame.image.load(os.path.dirname(__file__)+"/bg.png")
+mixer.music.load(os.path.dirname(__file__)+"/bg.mp3")
+mixer.music.play(-1)
 
 # Enemy
 enemyImg = pygame.image.load(os.path.dirname(__file__)+"/ufoenemy.png")
+ekilled = mixer.Sound(os.path.dirname(__file__)+"/explosion.wav")
 eX = []
 eY = []
 edx = []
@@ -62,8 +66,14 @@ def enemy(X,Y,i):
         edx[i] *= -1
         eX[i] = 5
         eY[i] = eY[i] + 35
+    if eY[i] > 440:
+        eY = [2000 for _ in eY]
+        g = font.render("Game Over!!!", True, (255,255,255))
+        screen.blit(g,(300,250))
+
     if state[i]:
         screen.blit(enemyImg,(eX[i], eY[i]))
+        #enemyMove.play()
     
 createEnimies(lvl,speed)
 
@@ -96,6 +106,7 @@ bX = pX
 bY = pY
 bdy = 8
 bState = False
+bSound = mixer.Sound(os.path.dirname(__file__)+"/shoot.wav")
 
 def fire(X,Y):
     global bState
@@ -140,6 +151,7 @@ while running:
                 if not bState:
                     bY = pY
                     bX = pX
+                    bSound.play()
                     fire(bX,bY)
         if e.type == pygame.KEYUP:
             if e.key == pygame.K_LEFT or e.key == pygame.K_UP or e.key == pygame.K_RIGHT or e.key == pygame.K_DOWN:
@@ -164,6 +176,7 @@ while running:
             score+=1
             print(score)
             screen.blit(blastImg,(eX[i],eY[i]))
+            ekilled.play()
             state[i] = False
     pygame.display.update()
     if True in state:
