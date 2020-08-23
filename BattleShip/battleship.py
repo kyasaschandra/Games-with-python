@@ -37,7 +37,7 @@ def createEnimies(lvl,speed):
     eY = []
     edx = []
     state = []
-    for i in range(lvl):
+    for _ in range(lvl):
         eX.append(random.randint(5,730))
         eY.append(random.randint(10,180))
         edx.append(random.choice([1*speed,-1*speed]))
