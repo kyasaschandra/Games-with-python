@@ -5,7 +5,10 @@ https://www.youtube.com/channel/UC2vm-0XX5RkWCXWwtBZGOXg
 
 import turtle
 import winsound
+import os
+import random
 
+soundpath = os.path.dirname(__file__)+"/bounce.wav"
 
 window = turtle.Screen()
 window.title("PONG by @BlitzBlaster31")
@@ -39,8 +42,8 @@ ball.shape("circle")
 ball.color("black")
 ball.penup()
 ball.goto(0,0)
-ball.dx = 5
-ball.dy = 5
+ball.dx = random.choice([5,-5])
+ball.dy = random.choice([5,-5])
 
 # scoring
 Ascore = 0
@@ -61,7 +64,7 @@ def change(Ascore,Bscore):
     pen.write("Player A: {}  Player B: {}".format(Ascore,Bscore),align="center",font=("Courier", 24, "normal"))
 
 def playsound():
-    winsound.PlaySound("bounce.wav",winsound.SND_ASYNC)
+    winsound.PlaySound(soundpath,winsound.SND_ASYNC)
 
 def playerA_up():
     y = playerA.ycor()
@@ -124,14 +127,16 @@ while True:
 
     if ball.xcor()> 400:
         ball.goto(0,0)
-        ball.dx *= -1
+        ball.dx = random.choice([5,-5])
+        ball.dy = random.choice([5,-5])
         Ascore+=1
         pen.clear()
         change(Ascore, Bscore)
 
     if ball.xcor() < -400:
         ball.goto(0,0)
-        ball.dx *= -1
+        ball.dx = random.choice([5,-5])
+        ball.dy = random.choice([5,-5])
         Bscore+=1
         pen.clear()
         change(Ascore,Bscore)
