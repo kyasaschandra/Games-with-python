@@ -4,6 +4,8 @@ https://www.youtube.com/channel/UC2vm-0XX5RkWCXWwtBZGOXg
 """
 
 import turtle
+import winsound
+
 
 window = turtle.Screen()
 window.title("PONG by @BlitzBlaster31")
@@ -33,12 +35,12 @@ playerB.goto(350,0)
 # Ball
 ball = turtle.Turtle()
 ball.speed(0.4)
-ball.shape("square")
+ball.shape("circle")
 ball.color("black")
 ball.penup()
 ball.goto(0,0)
-ball.dx = 2
-ball.dy = 2
+ball.dx = 5
+ball.dy = 5
 
 # scoring
 Ascore = 0
@@ -58,6 +60,8 @@ pen.write("Player A: {}  Player B: {}".format(Ascore,Bscore),align="center",font
 def change(Ascore,Bscore):
     pen.write("Player A: {}  Player B: {}".format(Ascore,Bscore),align="center",font=("Courier", 24, "normal"))
 
+def playsound():
+    winsound.PlaySound("bounce.wav",winsound.SND_ASYNC)
 
 def playerA_up():
     y = playerA.ycor()
@@ -87,8 +91,6 @@ window.onkeypress(playerB_down,"Down")
 
 
 
-
-
 #Main Loop
 while True:
     window.update()
@@ -98,20 +100,33 @@ while True:
     ball.sety(ball.ycor()+ball.dy)
 
     # Border Check
+    if playerA.ycor() < -250:
+        playerA.sety(-250)
+
+    if playerA.ycor() > 250:
+        playerA.sety(250)
+    
+    if playerB.ycor() < -250:
+        playerA.sety(-250)
+
+    if playerB.ycor() > 250:
+        playerA.sety(250)
+
     if ball.ycor() >290:
         ball.sety(290)
         ball.dy*= -1
+        playsound()
     
     if ball.ycor() < -290:
         ball.sety(-290)
         ball.dy*= -1
+        playsound()
 
     if ball.xcor()> 400:
         ball.goto(0,0)
         ball.dx *= -1
         Ascore+=1
         pen.clear()
-        #pen.write("Player A: {}  Player B: {}".format(Ascore,Bscore),align="center",font=("Courier", 24, "normal"))
         change(Ascore, Bscore)
 
     if ball.xcor() < -400:
@@ -119,12 +134,13 @@ while True:
         ball.dx *= -1
         Bscore+=1
         pen.clear()
-        #pen.write("Player A: {}  Player B: {}".format(Ascore,Bscore),align="center",font=("Courier", 24, "normal"))
         change(Ascore,Bscore)
 
     # Bounce Collision
     if ball.xcor() > 340 and ball.xcor() < 350 and ball.ycor() < playerB.ycor() + 60 and ball.ycor() > playerB.ycor() - 60:
         ball.dx *= -1
+        playsound()
 
     if ball.xcor() < -340 and ball.xcor() > -350 and ball.ycor() < playerA.ycor() + 60 and ball.ycor() > playerA.ycor() - 60:
         ball.dx *= -1
+        playsound()
